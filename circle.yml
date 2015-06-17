@@ -1,0 +1,10 @@
+machine:
+  services:
+    - docker
+dependencies:
+  override:
+    - docker build -t wharsojo/redis .
+test:
+  override:
+    - docker run -d -p 6380:6379 -e REDIS_PASS="mypass" wharsojo/redis; sleep 30
+    - redis-cli -a mypass -p 6380 ping | grep PONG
